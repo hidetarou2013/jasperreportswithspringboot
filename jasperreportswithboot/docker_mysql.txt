@@ -1,0 +1,62 @@
+ref
+
+```
+[vagrant@localhost ~]$ history | grep mysqld_pumpkinhotel
+  748  docker create --name mysqld_pumpkinhotel_storage hidetarou2013/mysql-storage
+  749  docker run --volumes-from mysqld_pumpkinhotel_storage --name mysqld_pumpkinhotel -p 13306:3306 -e MYSQL_ROOT_PASSWORD=mysqladmin -e MYSQL_USER=kenshuu -e MYSQL_PASSWORD=kenshuu -e MYSQL_DATABASE=pumpkinhotel -d hidetarou2013/mysql-server:BASE
+  756  docker cp pumpkinhotel_dump20161209.sql mysqld_pumpkinhotel:/tmp/pumpkinhotel_dump20161209.sql
+  757  docker-enter mysqld_pumpkinhotel
+  769  history | grep mysqld_pumpkinhotelmysqld_pumpkinhotel
+  770  history | grep mysqld_pumpkinhotel
+  781  docker stop mysqld_pumpkinhotel
+ 1013  history mysqld_pumpkinhotel
+ 1014  history | grep mysqld_pumpkinhotel
+
+```
+
+error
+
+```
+[vagrant@localhost ~]$ docker run --volumes-from mysqld_pumpkinhotel_storage --name mysqld_pumpkinhotel -p 13306:3306 -e MYSQL_ROOT_PASSWORD=mysqladmin -e MYSQL_USER=kenshuu -e MYSQL_PASSWORD=kenshuu -e MYSQL_DATABASE=pumpkinhotel -d hidetarou2013/mysql-server:BASE
+6a10a40ac7b0475ae8ba1284e818eb4baa694941ba75497270296a7cab5ea7e1
+Error response from daemon: Cannot start container 6a10a40ac7b0475ae8ba1284e818eb4baa694941ba75497270296a7cab5ea7e1: iptables failed: iptables --wait -t nat -A DOCKER -p tcp -d 0/0 --dport 13306 -j DNAT --to-destination 172.17.0.3:3306 ! -i docker0: iptables: No chain/target/match by that name.
+ (exit status 1)
+[vagrant@localhost ~]$
+
+```
+
+
+resolv
+
+```
+[vagrant@localhost ~]$ sudo systemctl start firewalld
+[vagrant@localhost ~]$ docker run --volumes-from mysqld_pumpkinhotel_storage --name mysqld_pumpkinhotel -p 13306:3306 -e MYSQL_ROOT_PASSWORD=mysqladmin -e MYSQL_USER=kenshuu -e MYSQL_PASSWORD=kenshuu -e MYSQL_DATABASE=pumpkinhotel -d hidetarou2013/mysql-server:BASE
+5aac7e2e485509b735501fa1343b04f571e9de039c087f31fafc5b1f480ac983
+[vagrant@localhost ~]$ sudo systemctl stop firewalld
+[vagrant@localhost ~]$ docker ps
+CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                     NAMES
+5aac7e2e4855        hidetarou2013/mysql-server:BASE   "/entrypoint.sh mysql"   52 seconds ago      Up 51 seconds       0.0.0.0:13306->3306/tcp   mysqld_pumpkinhotel
+[vagrant@localhost ~]$
+
+```
+
+spring boot app run
+JasperReportApp
+
+URL
+http://localhost:8080/report/{reportname}?format={format}&id={id}
+
+rpt_A
+http://localhost:8080/report/rpt_A?format={format}&id={id}
+
+
+
+product_name
+description
+address
+product_id
+
+このカラムを所持するテーブルが必要なはず。。
+rating
+が必要になるのか、ならないのか不明
+
